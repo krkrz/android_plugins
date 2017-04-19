@@ -1,0 +1,2 @@
+# android_plugins
+Android用のプラグインを作るためのベースプロジェクト
