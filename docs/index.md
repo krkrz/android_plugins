@@ -55,6 +55,13 @@ plugins内にプラグインのソースコードをディレクトリごとコ�
 具体的にはCMakeList.txtのset( CMAKE_SHARED_LINKER_FLAGS～と書かれた行の最後の方に「-Wl,--strip-debug -Wl,--discard-all」と書かれているところを削除します。  
 吉里吉里Z本体をビルドすれば同時にプラグインのソースコードもビルドされるので、必要に応じてブレークポイントなどを貼ってデバッグします。
 
+## その他ソースコード上の注意
+Android対応に当たってソースコードで修正が必要になるであろう項目
+* UTF-8化する。AndroidではソースコードがUTF-8である必要があるので、UTF-8に変換しWindows版でもビルドできるようにコンパイルオプションに/source-charset:utf-8 を追加する(Visual Studio2015)。
+* V2Link/V2Unlinkのプロトタイプの変更。Windows版ではHRESULT _stdcall V2Link(iTVPFunctionExporter*)であったが、HRESULTはWindows固有であるため、tjs_errorへと変更されている。ifdefなどでtypedef tjs_error HRESULT;等する必要がある。\_\_stdcallや\_\_declspec(dllexport)も#defineで別名定義する。
+* S_OK/E_FAILではなくTJS_S_OK/TJS_E_FAILを使う。S_OK等はWindows固有なので、TJSの定義の方を使うようにする。
+* wstringやwchar_tを避けて、tjs_stringやtjs_charに変更する。wchar_tはサイズが環境依存のため、マルチプラットフォーム化に当たって同じサイズになるようにWindows以外ではu16stringとchar16_tが使われるようにしている。Windows版はWin32 APIへの引数などの関係から従来通りの定義になっている。環境固有とならないようにwstringやwchar_tは使わないようにする。
+
 # Android版でのプラグインの利用
 プラグインのバイナリ(soファイル)が入ったディレクトリ(armeabi/armeabi-v7a/arm64-v8a など)ごと本体のプロジェクトのsoを入れるディレクトリ(krkrz/android/app/src/main/jniLibs)にコピーします。  
 Build APK して apk を生成すれば、apk 内にプラグインが入ります。  
