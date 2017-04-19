@@ -1,0 +1,3 @@
+[submodule "plugins/kagparser"]
+	path = plugins/kagparser
+	url = https://github.com/krkrz/KAGParser.git
