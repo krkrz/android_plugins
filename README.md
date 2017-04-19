@@ -1,2 +1,2 @@
-# android_plugins
+# Android用吉里吉里Zプラグイン
 Android用のプラグインを作るためのベースプロジェクト
