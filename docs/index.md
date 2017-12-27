@@ -61,6 +61,7 @@ Android対応に当たってソースコードで修正が必要になるであ�
 * V2Link/V2Unlinkのプロトタイプの変更。Windows版ではHRESULT _stdcall V2Link(iTVPFunctionExporter*)であったが、HRESULTはWindows固有であるため、tjs_errorへと変更されている。ifdefなどでtypedef tjs_error HRESULT;等する必要がある。\_\_stdcallや\_\_declspec(dllexport)も#defineで別名定義する。
 * S_OK/E_FAILではなくTJS_S_OK/TJS_E_FAILを使う。S_OK等はWindows固有なので、TJSの定義の方を使うようにする。
 * wstringやwchar_tを避けて、tjs_stringやtjs_charに変更する。wchar_tはサイズが環境依存のため、マルチプラットフォーム化に当たって同じサイズになるようにWindows以外ではu16stringとchar16_tが使われるようにしている。Windows版はWin32 APIへの引数などの関係から従来通りの定義になっている。環境固有とならないようにwstringやwchar_tは使わないようにする。
+* IStreamでファイル読み込みしている箇所を書き換える。[IStreamからBinaryStreamへ](https://krkrz.github.io/android_plugins/istream.html)
 
 # Android版でのプラグインの利用
 プラグインのバイナリ(soファイル)が入ったディレクトリ(armeabi/armeabi-v7a/arm64-v8a など)ごと本体のプロジェクトのsoを入れるディレクトリ(krkrz/android/app/src/main/jniLibs)にコピーします。  
